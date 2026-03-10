@@ -1,1 +1,3314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Generation | Tech Education Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --accent: #0ea5e9;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 8px;
+            --transition: all 0.3s ease;
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: white;
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .logo i {
+            color: var(--secondary);
+        }
+
+        nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .nav-link.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.6rem 1.5rem;
+            border-radius: var(--radius);
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            padding: 2rem;
+            min-height: calc(100vh - 200px);
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Home Page */
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: var(--radius);
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        /* Courses */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .course-img {
+            height: 180px;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .course-content {
+            padding: 1.5rem;
+        }
+
+        .course-category {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Dashboard */
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            height: fit-content;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-menu a {
+            display: block;
+            padding: 0.8rem 1rem;
+            text-decoration: none;
+            color: var(--dark);
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .dashboard-content {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        /* Forms */
+        .form-container {
+            max-width: 500px;
+            margin: 2rem auto;
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Quiz System */
+        .quiz-container {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin: 2rem 0;
+        }
+
+        .question {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .options {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .option {
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .option:hover {
+            background-color: #f8fafc;
+        }
+
+        .option.selected {
+            border-color: var(--primary);
+            background-color: rgba(37, 99, 235, 0.05);
+        }
+
+        /* AI Assistant */
+        .ai-assistant {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+
+        .ai-toggle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+            transition: var(--transition);
+        }
+
+        .ai-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .ai-chatbox {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .ai-chatbox.active {
+            display: flex;
+        }
+
+        .ai-header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .ai-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .ai-input-area {
+            padding: 1rem;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            border-radius: var(--radius);
+            max-width: 80%;
+        }
+
+        .user-message {
+            background: var(--primary);
+            color: white;
+            margin-left: auto;
+        }
+
+        .ai-message {
+            background: #f1f5f9;
+            color: var(--dark);
+        }
+
+        /* Admin */
+        .admin-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #f8fafc;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem 1rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+            }
+
+            nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: var(--shadow);
+            }
+
+            nav.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .user-actions {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .ai-chatbox {
+                width: 300px;
+                height: 400px;
+            
+        .course-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.course-section-card {
+    background: white;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border: 1px solid #e2e8f0;
+}
+
+.course-section-header {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.course-section-header:hover {
+    background: linear-gradient(135deg, #f1f5f9, #dbeafe);
+}
+
+.course-section-header h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--dark);
+    margin: 0;
+}
+
+.course-section-header i {
+    color: var(--primary);
+    font-size: 1.5rem;
+}
+
+.course-section-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: var(--gray);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.course-section-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+}
+
+.course-section-content.active {
+    max-height: 2000px;
+}
+
+.course-section-body {
+    padding: 2rem;
+}
+
+.section-topics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.topic-item {
+    background: #f8fafc;
+    padding: 1rem;
+    border-radius: var(--radius);
+    border-left: 4px solid var(--primary);
+}
+
+.topic-item i {
+    color: var(--primary);
+    margin-right: 0.5rem;
+}
+
+.code-block {
+    background: #1e293b;
+    color: #e2e8f0;
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    font-family: 'Courier New', monospace;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    position: relative;
+}
+
+.code-block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    color: #94a3b8;
+}
+
+.copy-code-btn {
+    background: #334155;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.copy-code-btn:hover {
+    background: #475569;
+}
+
+.code-block pre {
+    margin: 0;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+.resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.resource-item {
+    background: white;
+    border: 2px dashed #cbd5e1;
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.resource-item:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.resource-item i {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.resource-download {
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.interactive-demo {
+    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+    padding: 2rem;
+    border-radius: var(--radius);
+    margin: 1.5rem 0;
+}
+
+.demo-controls {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+}
+
+.demo-output {
+    background: white;
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    min-height: 100px;
+    margin-top: 1rem;
+    border: 1px solid #e2e8f0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .section-topics {
+        grid-template-columns: 1fr;
+    }
+    
+    .course-section-body {
+        padding: 1.5rem;
+    }
+    
+    .demo-controls {
+        flex-direction: column;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <i class="fas fa-robot"></i>
+            <span>AI-Generation</span>
+        </div>
+        
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <nav id="mainNav">
+            <a href="#home" class="nav-link active" data-page="home">Home</a>
+            <a href="#courses" class="nav-link" data-page="courses">Courses</a>
+            <a href="#resources" class="nav-link" data-page="resources">Resources</a>
+            <a href="#blog" class="nav-link" data-page="blog">Blog</a>
+            <a href="#about" class="nav-link" data-page="about">About</a>
+            <a href="#contact" class="nav-link" data-page="contact">Contact</a>
+        </nav>
+        
+        <div class="user-actions">
+            <button class="btn btn-outline" id="loginBtn">Login</button>
+            <button class="btn btn-primary" id="signupBtn">Sign Up</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="mainContent">
+        <!-- Home Page -->
+        <section id="home" class="page active">
+            <div class="hero">
+                <h1>Welcome to AI-Generation</h1>
+                <p>Master cutting-edge technology skills with our structured courses, expert resources, and AI-powered learning assistant.</p>
+                <button class="btn btn-primary btn-lg">
+                    <i class="fas fa-rocket"></i> Start Learning Now
+                </button>
+                
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number">50+</div>
+                        <div>Courses</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">10K+</div>
+                        <div>Students</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100+</div>
+                        <div>Resources</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div>AI Support</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Our Featured Courses</h2>
+            <div class="courses-grid" id="featuredCourses"></div>
+
+            <h2>Why Choose AI-Generation?</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <i class="fas fa-brain"></i>
+                    <h3>AI-Powered Learning</h3>
+                    <p>Get personalized assistance and explanations from our AI tutor available 24/7.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-laptop-code"></i>
+                    <h3>Hands-On Projects</h3>
+                    <p>Learn by building real-world projects with step-by-step guidance.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Progress Tracking</h3>
+                    <p>Monitor your learning journey with detailed analytics and reports.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Courses Page -->
+        <section id="courses" class="page">
+            <h1>Our Courses</h1>
+            <p>Browse our comprehensive technology courses designed for all skill levels.</p>
+            
+            <div class="filter-bar" style="margin: 2rem 0; display: flex; gap: 1rem;">
+                <button class="btn btn-primary" data-filter="all">All</button>
+                <button class="btn btn-outline" data-filter="frontend">Frontend</button>
+                <button class="btn btn-outline" data-filter="backend">Backend</button>
+                <button class="btn btn-outline" data-filter="fullstack">Full-Stack</button>
+                <button class="btn btn-outline" data-filter="android">Android</button>
+                <button class="btn btn-outline" data-filter="cybersecurity">Cybersecurity</button>
+            </div>
+            
+            <div class="courses-grid" id="coursesGrid"></div>
+        </section>
+
+        <!-- Course Details Page -->
+        <section id="course-details" class="page">
+            <div id="courseDetailsContent"></div>
+        </section>
+
+        <!-- Resources Page -->
+        <section id="resources" class="page">
+            <h1>Learning Resources</h1>
+            <p>Downloadable materials, cheat sheets, and study guides.</p>
+            
+            <div class="resources-container" style="margin-top: 2rem;">
+                <div class="resource-category">
+                    <h3>Frontend Development</h3>
+                    <div class="resources-list" id="frontendResources"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Page -->
+        <section id="blog" class="page">
+            <h1>Latest Articles & News</h1>
+            <div class="blog-posts" id="blogPosts"></div>
+        </section>
+
+        <!-- About Page -->
+        <section id="about" class="page">
+            <div class="hero" style="background: linear-gradient(135deg, var(--secondary), var(--accent));">
+                <h1>About AI-Generation</h1>
+                <p>Empowering the next generation of developers with accessible, high-quality technology education.</p>
+            </div>
+            
+            <div style="max-width: 800px; margin: 3rem auto;">
+                <h2>Our Mission</h2>
+                <p>To democratize technology education by providing free, high-quality learning resources supplemented with AI-powered personalized assistance.</p>
+                
+                <h2 style="margin-top: 2rem;">Our Team</h2>
+                <p>We are a group of passionate developers, educators, and AI specialists committed to revolutionizing how people learn technology.</p>
+            </div>
+        </section>
+
+        <!-- Contact Page -->
+        <section id="contact" class="page">
+            <h1>Contact Us</h1>
+            <p>Have questions? Get in touch with our team.</p>
+            
+            <div class="form-container">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="contactName">Full Name</label>
+                        <input type="text" id="contactName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactEmail">Email Address</label>
+                        <input type="email" id="contactEmail" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactSubject">Subject</label>
+                        <input type="text" id="contactSubject" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactMessage">Message</label>
+                        <textarea id="contactMessage" class="form-control" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Login Page -->
+        <section id="login" class="page">
+            <div class="form-container">
+                <h2 style="text-align: center; margin-bottom: 1.5rem;">Login to Your Account</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email Address</label>
+                        <input type="email" id="loginEmail" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                </form>
+                <div style="text-align: center; margin-top: 1rem;">
+                    <p>Don't have an account? <a href="#" id="goToSignup">Sign up here</a></p>
+                    <p><a href="#">Forgot password?</a></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Signup Page -->
+        <section id="signup" class="page">
+            <div class="form-container">
+                <h2 style="text-align: center; margin-bottom: 1.5rem;">Create Your Account</h2>
+                <form id="signupForm">
+                    <div class="form-group">
+                        <label for="signupName">Full Name</label>
+                        <input type="text" id="signupName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupEmail">Email Address</label>
+                        <input type="email" id="signupEmail" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <input type="password" id="signupPassword" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupRole">I want to join as:</label>
+                        <select id="signupRole" class="form-control">
+                            <option value="student">Student</option>
+                            <option value="instructor">Instructor</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </button>
+                </form>
+                <div style="text-align: center; margin-top: 1rem;">
+                    <p>Already have an account? <a href="#" id="goToLogin">Login here</a></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- User Dashboard -->
+        <section id="dashboard" class="page">
+            <div class="dashboard-container">
+                <div class="sidebar">
+                    <h3>My Dashboard</h3>
+                    <ul class="sidebar-menu">
+                        <li><a href="#" class="dashboard-link active" data-section="overview"><i class="fas fa-home"></i> Overview</a></li>
+                        <li><a href="#" class="dashboard-link" data-section="my-courses"><i class="fas fa-book"></i> My Courses</a></li>
+                        <li><a href="#" class="dashboard-link" data-section="progress"><i class="fas fa-chart-line"></i> Progress</a></li>
+                        <li><a href="#" class="dashboard-link" data-section="resources"><i class="fas fa-download"></i> Resources</a></li>
+                        <li><a href="#" class="dashboard-link" data-section="quizzes"><i class="fas fa-question-circle"></i> Quizzes</a></li>
+                        <li><a href="#" class="dashboard-link" data-section="settings"><i class="fas fa-cog"></i> Settings</a></li>
+                    </ul>
+                </div>
+                
+                <div class="dashboard-content">
+                    <div id="dashboardOverview" class="dashboard-section active">
+                        <h2>Welcome back, <span id="userName">Student</span>!</h2>
+                        <div class="stats" style="justify-content: flex-start; gap: 2rem; margin: 2rem 0;">
+                            <div class="stat-item">
+                                <div class="stat-number" id="enrolledCourses">0</div>
+                                <div>Enrolled Courses</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" id="completedQuizzes">0</div>
+                                <div>Quizzes Completed</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" id="downloads">0</div>
+                                <div>Resources Downloaded</div>
+                            </div>
+                        </div>
+                        
+                        <h3>Continue Learning</h3>
+                        <div id="continueLearning"></div>
+                    </div>
+                    
+                    <div id="dashboardMyCourses" class="dashboard-section">
+                        <h2>My Courses</h2>
+                        <div id="myCoursesList"></div>
+                    </div>
+                    
+                    <div id="dashboardQuizzes" class="dashboard-section">
+                        <h2>Quizzes</h2>
+                        <div id="quizList"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admin Dashboard -->
+        <section id="admin" class="page">
+            <h1>Admin Dashboard</h1>
+            
+            <div class="admin-controls">
+                <button class="btn btn-primary" id="manageCoursesBtn">
+                    <i class="fas fa-book"></i> Manage Courses
+                </button>
+                <button class="btn btn-success" id="manageUsersBtn">
+                    <i class="fas fa-users"></i> Manage Users
+                </button>
+                <button class="btn btn-outline" id="manageBlogBtn">
+                    <i class="fas fa-blog"></i> Manage Blog
+                </button>
+            </div>
+            
+            <div id="adminCoursesSection">
+                <h2>Course Management</h2>
+                <button class="btn btn-primary" id="addCourseBtn" style="margin-bottom: 1rem;">
+                    <i class="fas fa-plus"></i> Add New Course
+                </button>
+                
+                <div class="table-container">
+                    <table id="coursesTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Course Name</th>
+                                <th>Category</th>
+                                <th>Students</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="coursesTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div id="adminUsersSection" style="display: none;">
+                <h2>User Management</h2>
+                <div class="table-container">
+                    <table id="usersTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Joined</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- AI Assistant -->
+    <div class="ai-assistant">
+        <button class="ai-toggle" id="aiToggle">
+            <i class="fas fa-robot"></i>
+        </button>
+        <div class="ai-chatbox" id="aiChatbox">
+            <div class="ai-header">
+                AI Learning Assistant
+            </div>
+            <div class="ai-messages" id="aiMessages">
+                <div class="message ai-message">
+                    Hello! I'm your AI learning assistant. How can I help you today?
+                </div>
+            </div>
+            <div class="ai-input-area">
+                <input type="text" id="aiInput" class="form-control" placeholder="Ask me anything..." style="flex: 1;">
+                <button class="btn btn-primary" id="sendAiMessage">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>AI-Generation</h3>
+                <p>Your pathway to mastering modern technology with AI-powered education.</p>
+                <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#courses">Courses</a></li>
+                    <li><a href="#resources">Resources</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#about">About Us</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Courses</h3>
+                <ul>
+                    <li><a href="#">Frontend Development</a></li>
+                    <li><a href="#">Backend Development</a></li>
+                    <li><a href="#">Full-Stack Development</a></li>
+                    <li><a href="#">Android Development</a></li>
+                    <li><a href="#">Cybersecurity</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <ul>
+                    <li><i class="fas fa-envelope"></i> support@aigeneration.com</li>
+                    <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                    <li><i class="fas fa-map-marker-alt"></i> San Francisco, CA</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2024 AI-Generation. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Application State
+        const state = {
+            currentUser: null,
+            currentPage: 'home',
+            courses: [],
+            users: [],
+            blogPosts: [],
+            quizzes: [],
+            resources: [],
+            currentQuiz: null,
+            quizAnswers: {},
+            aiChatHistory: []
+        };
+
+        // Initialize Application
+        document.addEventListener('DOMContentLoaded', function() {
+            initNavigation();
+            initEventListeners();
+            loadInitialData();
+            renderCourses();
+            renderBlogPosts();
+            setupAIAssistant();
+            
+            // Check for authenticated user
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                state.currentUser = JSON.parse(savedUser);
+                updateUIForUser();
+            }
+        });
+
+        // Navigation System
+        function initNavigation() {
+            // Handle navigation clicks
+            document.querySelectorAll('[data-page]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pageId = this.getAttribute('data-page');
+                    navigateTo(pageId);
+                });
+            });
+
+            // Handle login/signup buttons
+            document.getElementById('loginBtn').addEventListener('click', () => navigateTo('login'));
+            document.getElementById('signupBtn').addEventListener('click', () => navigateTo('signup'));
+            document.getElementById('goToLogin').addEventListener('click', (e) => {
+                e.preventDefault();
+                navigateTo('login');
+            });
+            document.getElementById('goToSignup').addEventListener('click', (e) => {
+                e.preventDefault();
+                navigateTo('signup');
+            });
+
+            // Mobile menu
+            document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+                const nav = document.getElementById('mainNav');
+                nav.classList.toggle('active');
+            });
+        }
+
+        function navigateTo(pageId) {
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === pageId) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show target page
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+                state.currentPage = pageId;
+                
+                // Close mobile menu
+                document.getElementById('mainNav').classList.remove('active');
+                
+                // Load page-specific content
+                loadPageContent(pageId);
+            }
+        }
+
+        function loadPageContent(pageId) {
+            switch(pageId) {
+                case 'courses':
+                    renderCourses();
+                    break;
+                case 'dashboard':
+                    if (!state.currentUser) {
+                        navigateTo('login');
+                        return;
+                    }
+                    renderDashboard();
+                    break;
+                case 'admin':
+                    if (!state.currentUser || state.currentUser.role !== 'admin') {
+                        navigateTo('login');
+                        return;
+                    }
+                    renderAdminDashboard();
+                    break;
+                case 'resources':
+                    renderResources();
+                    break;
+                case 'blog':
+                    renderBlogPosts();
+                    break;
+            }
+        }
+
+        // Event Listeners
+        function initEventListeners() {
+            // Login form
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                loginUser(email, password);
+            });
+
+            // Signup form
+            document.getElementById('signupForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('signupName').value;
+                const email = document.getElementById('signupEmail').value;
+                const password = document.getElementById('signupPassword').value;
+                const role = document.getElementById('signupRole').value;
+                registerUser(name, email, password, role);
+            });
+
+            // Contact form
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('contactName').value;
+                const email = document.getElementById('contactEmail').value;
+                const subject = document.getElementById('contactSubject').value;
+                const message = document.getElementById('contactMessage').value;
+                
+                alert(`Thank you ${name}! Your message has been sent. We'll get back to you soon.`);
+                this.reset();
+            });
+
+            // Course filtering
+            document.querySelectorAll('[data-filter]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const filter = this.getAttribute('data-filter');
+                    filterCourses(filter);
+                });
+            });
+
+            // Admin controls
+            document.getElementById('manageCoursesBtn').addEventListener('click', () => {
+                document.getElementById('adminCoursesSection').style.display = 'block';
+                document.getElementById('adminUsersSection').style.display = 'none';
+            });
+            
+            document.getElementById('manageUsersBtn').addEventListener('click', () => {
+                document.getElementById('adminCoursesSection').style.display = 'none';
+                document.getElementById('adminUsersSection').style.display = 'block';
+            });
+
+            // Add course button
+            document.getElementById('addCourseBtn')?.addEventListener('click', () => {
+                addNewCourse();
+            });
+
+            // Dashboard navigation
+            document.querySelectorAll('.dashboard-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const section = this.getAttribute('data-section');
+                    showDashboardSection(section);
+                });
+            });
+        }
+
+        // Data Initialization
+        function loadInitialData() {
+            // Sample Courses Data
+            state.courses = [
+                {
+                    id: 1,
+                    title: "Modern JavaScript Mastery",
+                    category: "frontend",
+                    description: "Master JavaScript ES6+ features, async programming, and modern frameworks.",
+                    duration: "8 weeks",
+                    level: "Intermediate",
+                    students: 1250,
+                    rating: 4.8,
+                    lessons: 24,
+                    shortNotes: [
+                        "JavaScript is single-threaded but supports async operations via event loop",
+                        "ES6 introduced let/const, arrow functions, classes, modules, and promises",
+                        "Closures allow functions to access variables from parent scope even after parent function has closed",
+                        "Hoisting moves variable and function declarations to the top of their scope during compilation",
+                        "The 'this' keyword refers to the object that is executing the current function"
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "Python Backend Development",
+                    category: "backend",
+                    description: "Build scalable backend applications with Python, Django, and Flask.",
+                    duration: "10 weeks",
+                    level: "Beginner",
+                    students: 980,
+                    rating: 4.7,
+                    lessons: 30,
+                    shortNotes: [
+                        "Python uses indentation to define code blocks instead of curly braces",
+                        "Django follows the 'batteries-included' philosophy with built-in admin panel and ORM",
+                        "Flask is a microframework that gives developers more flexibility and control",
+                        "WSGI (Web Server Gateway Interface) is the standard for Python web applications",
+                        "Virtual environments are crucial for managing project dependencies"
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "Full-Stack MERN Development",
+                    category: "fullstack",
+                    description: "Complete guide to building applications with MongoDB, Express, React, and Node.js.",
+                    duration: "12 weeks",
+                    level: "Advanced",
+                    students: 750,
+                    rating: 4.9,
+                    lessons: 36,
+                    shortNotes: [
+                        "MERN stack allows JavaScript development for both frontend and backend",
+                        "React uses virtual DOM for efficient updates",
+                        "Node.js is built on Chrome's V8 JavaScript engine",
+                        "Mongoose provides schema-based solution for MongoDB",
+                        "JWT (JSON Web Tokens) are commonly used for authentication"
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "Android App Development with Kotlin",
+                    category: "android",
+                    description: "Create professional Android applications using Kotlin and Android Studio.",
+                    duration: "10 weeks",
+                    level: "Intermediate",
+                    students: 620,
+                    rating: 4.6,
+                    lessons: 28,
+                    shortNotes: [
+                        "Kotlin is fully interoperable with Java and null-safe by design",
+                        "Activities represent single screens in Android apps",
+                        "Fragments are reusable UI components within activities",
+                        "ViewModel preserves UI-related data across configuration changes",
+                        "LiveData is observable data holder class that respects lifecycle"
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "Cybersecurity Fundamentals",
+                    category: "cybersecurity",
+                    description: "Learn essential cybersecurity concepts, tools, and best practices.",
+                    duration: "6 weeks",
+                    level: "Beginner",
+                    students: 890,
+                    rating: 4.8,
+                    lessons: 20,
+                    shortNotes: [
+                        "CIA Triad: Confidentiality, Integrity, Availability - core principles of security",
+                        "Defense in depth uses multiple layers of security controls",
+                        "OWASP Top 10 lists most critical web application security risks",
+                        "Encryption converts data into unreadable format to protect confidentiality",
+                        "Two-factor authentication adds extra layer of security beyond passwords"
+                    ]
+                },
+                {
+                    id: 6,
+                    title: "Advanced React Patterns",
+                    category: "frontend",
+                    description: "Master advanced React concepts including hooks, context, and performance optimization.",
+                    duration: "6 weeks",
+                    level: "Advanced",
+                    students: 540,
+                    rating: 4.9,
+                    lessons: 18,
+                    shortNotes: [
+                        "React Hooks allow using state and lifecycle features in functional components",
+                        "Context API provides way to pass data through component tree without prop drilling",
+                        "React.memo prevents unnecessary re-renders of functional components",
+                        "Custom hooks allow extracting component logic into reusable functions",
+                        "Error boundaries catch JavaScript errors anywhere in their child component tree"
+                    ]
+                }
+            ];
+
+            // Sample Users Data
+            state.users = [
+                { id: 1, name: "Admin User", email: "admin@aigeneration.com", role: "admin", joined: "2024-01-15" },
+                { id: 2, name: "John Doe", email: "john@example.com", role: "student", joined: "2024-02-20" },
+                { id: 3, name: "Jane Smith", email: "jane@example.com", role: "student", joined: "2024-03-10" }
+            ];
+
+            // Sample Blog Posts
+            state.blogPosts = [
+                { id: 1, title: "The Future of AI in Education", date: "2024-04-15", category: "AI", excerpt: "How artificial intelligence is transforming learning experiences." },
+                { id: 2, title: "JavaScript Performance Tips", date: "2024-04-10", category: "Frontend", excerpt: "Optimize your JavaScript code for better performance." },
+                { id: 3, title: "Getting Started with Cybersecurity", date: "2024-04-05", category: "Security", excerpt: "Essential first steps for beginners in cybersecurity." }
+            ];
+
+            // Sample Resources
+            state.resources = [
+                { id: 1, title: "HTML5 Cheat Sheet", category: "frontend", type: "pdf", downloads: 1200 },
+                { id: 2, title: "CSS Grid Guide", category: "frontend", type: "pdf", downloads: 980 },
+                { id: 3, title: "JavaScript ES6+ Features", category: "frontend", type: "pdf", downloads: 1500 }
+            ];
+
+            // Sample Quizzes
+            state.quizzes = [
+                {
+                    id: 1,
+                    courseId: 1,
+                    title: "JavaScript Basics Quiz",
+                    questions: [
+                        {
+                            id: 1,
+                            text: "What is the output of: console.log(typeof null)?",
+                            options: ["null", "object", "undefined", "string"],
+                            correct: 1
+                        },
+                        {
+                            id: 2,
+                            text: "Which keyword is used to declare a constant in JavaScript?",
+                            options: ["let", "var", "const", "static"],
+                            correct: 2
+                        },
+                        {
+                            id: 3,
+                            text: "What does 'this' refer to in a regular function?",
+                            options: ["The function itself", "The global object", "The calling object", "Undefined"],
+                            correct: 2
+                        }
+                    ]
+                }
+            ];
+        }
+
+        // Render Courses
+        function renderCourses() {
+            const coursesGrid = document.getElementById('coursesGrid') || document.getElementById('featuredCourses');
+            if (!coursesGrid) return;
+
+            const categoryIcons = {
+                frontend: "fas fa-code",
+                backend: "fas fa-server",
+                fullstack: "fas fa-layer-group",
+                android: "fab fa-android",
+                cybersecurity: "fas fa-shield-alt"
+            };
+
+            const coursesToShow = state.currentPage === 'home' 
+                ? state.courses.slice(0, 3) 
+                : state.courses;
+
+            coursesGrid.innerHTML = coursesToShow.map(course => `
+                <div class="course-card" data-id="${course.id}">
+                    <div class="course-img">
+                        <i class="${categoryIcons[course.category] || 'fas fa-laptop-code'}"></i>
+                    </div>
+                    <div class="course-content">
+                        <span class="course-category">${course.category.toUpperCase()}</span>
+                        <h3>${course.title}</h3>
+                        <p>${course.description}</p>
+                        <div style="display: flex; justify-content: space-between; margin-top: 1rem;">
+                            <span><i class="fas fa-clock"></i> ${course.duration}</span>
+                            <span><i class="fas fa-users"></i> ${course.students}</span>
+                            <span><i class="fas fa-star"></i> ${course.rating}</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="viewCourseDetails(${course.id})">
+                            <i class="fas fa-info-circle"></i> View Details
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterCourses(category) {
+            const coursesGrid = document.getElementById('coursesGrid');
+            if (!coursesGrid) return;
+
+            let filteredCourses = state.courses;
+            if (category !== 'all') {
+                filteredCourses = state.courses.filter(course => course.category === category);
+            }
+
+            coursesGrid.innerHTML = filteredCourses.map(course => `
+                <div class="course-card" data-id="${course.id}">
+                    <div class="course-img">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <div class="course-content">
+                        <span class="course-category">${course.category.toUpperCase()}</span>
+                        <h3>${course.title}</h3>
+                        <p>${course.description}</p>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="viewCourseDetails(${course.id})">
+                            <i class="fas fa-info-circle"></i> View Details
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function viewCourseDetails(courseId) {
+            const course = state.courses.find(c => c.id === courseId);
+            if (!course) return;
+
+            const content = `
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <button class="btn btn-outline" onclick="navigateTo('courses')" style="margin-bottom: 1rem;">
+                        <i class="fas fa-arrow-left"></i> Back to Courses
+                    </button>
+                    
+                    <div class="hero" style="background: linear-gradient(135deg, var(--primary), var(--accent)); text-align: left;">
+                        <h1>${course.title}</h1>
+                        <p>${course.description}</p>
+                        <div style="display: flex; gap: 2rem; margin-top: 1rem;">
+                            <span><i class="fas fa-clock"></i> ${course.duration}</span>
+                            <span><i class="fas fa-signal"></i> ${course.level}</span>
+                            <span><i class="fas fa-users"></i> ${course.students} students</span>
+                            <span><i class="fas fa-star"></i> ${course.rating}/5.0</span>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 2rem; margin: 2rem 0;">
+                        <button class="btn btn-primary" onclick="enrollInCourse(${course.id})">
+                            <i class="fas fa-plus"></i> Enroll Now
+                        </button>
+                        <button class="btn btn-outline" onclick="startQuiz(${course.id})">
+                            <i class="fas fa-question-circle"></i> Take Quiz
+                        </button>
+                        <button class="btn btn-outline" onclick="downloadCourseMaterials(${course.id})">
+                            <i class="fas fa-download"></i> Download Materials
+                        </button>
+                    </div>
+
+                    <div style="background: white; padding: 2rem; border-radius: var(--radius); margin: 2rem 0;">
+                        <h2>Course Content</h2>
+                        <p>${course.lessons} lessons • ${course.duration}</p>
+                        
+                        <h3 style="margin-top: 2rem;">Short Notes</h3>
+                        <div style="margin-top: 1rem;">
+                            ${course.shortNotes ? course.shortNotes.map((note, index) => `
+                                <div style="background: #f8fafc; padding: 1rem; border-radius: var(--radius); margin-bottom: 0.5rem;">
+                                    <strong>${index + 1}.</strong> ${note}
+                                </div>
+                            `).join('') : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('courseDetailsContent').innerHTML = content;
+            navigateTo('course-details');
+        }
+
+        // User Authentication
+        function loginUser(email, password) {
+            // In a real app, this would be an API call
+            if (email === 'admin@aigeneration.com' && password === 'admin123') {
+                state.currentUser = {
+                    id: 1,
+                    name: "Admin User",
+                    email: email,
+                    role: "admin"
+                };
+            } else {
+                state.currentUser = {
+                    id: Date.now(),
+                    name: "Demo User",
+                    email: email,
+                    role: "student"
+                };
+            }
+
+            localStorage.setItem('currentUser', JSON.stringify(state.currentUser));
+            updateUIForUser();
+            navigateTo('dashboard');
+            alert('Login successful!');
+        }
+
+        function registerUser(name, email, password, role) {
+            // In a real app, this would be an API call
+            state.currentUser = {
+                id: Date.now(),
+                name: name,
+                email: email,
+                role: role
+            };
+
+            localStorage.setItem('currentUser', JSON.stringify(state.currentUser));
+            updateUIForUser();
+            navigateTo('dashboard');
+            alert('Registration successful!');
+        }
+
+        function updateUIForUser() {
+            if (state.currentUser) {
+                document.getElementById('loginBtn').style.display = 'none';
+                document.getElementById('signupBtn').style.display = 'none';
+                
+                // Update nav for user
+                const nav = document.getElementById('mainNav');
+                nav.innerHTML = `
+                    <a href="#home" class="nav-link active" data-page="home">Home</a>
+                    <a href="#courses" class="nav-link" data-page="courses">Courses</a>
+                    <a href="#resources" class="nav-link" data-page="resources">Resources</a>
+                    <a href="#blog" class="nav-link" data-page="blog">Blog</a>
+                    <a href="#dashboard" class="nav-link" data-page="dashboard">Dashboard</a>
+                    ${state.currentUser.role === 'admin' ? '<a href="#admin" class="nav-link" data-page="admin">Admin</a>' : ''}
+                    <a href="#" class="nav-link" id="logoutBtn">Logout</a>
+                `;
+                
+                // Reattach event listeners
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    if (link.id !== 'logoutBtn') {
+                        link.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            const pageId = this.getAttribute('data-page');
+                            navigateTo(pageId);
+                        });
+                    }
+                });
+                
+                document.getElementById('logoutBtn').addEventListener('click', logoutUser);
+            }
+        }
+
+        function logoutUser() {
+            state.currentUser = null;
+            localStorage.removeItem('currentUser');
+            location.reload();
+        }
+
+        // Dashboard Functions
+        function renderDashboard() {
+            // Update user name
+            if (state.currentUser) {
+                document.getElementById('userName').textContent = state.currentUser.name;
+            }
+
+            // Update stats
+            document.getElementById('enrolledCourses').textContent = '3';
+            document.getElementById('completedQuizzes').textContent = '5';
+            document.getElementById('downloads').textContent = '12';
+
+            // Render enrolled courses
+            const enrolledCourses = state.courses.slice(0, 2);
+            document.getElementById('myCoursesList').innerHTML = enrolledCourses.map(course => `
+                <div class="course-card" style="margin-bottom: 1rem;">
+                    <div class="course-content">
+                        <h3>${course.title}</h3>
+                        <p>${course.description}</p>
+                        <div style="margin-top: 1rem;">
+                            <div style="background: #e2e8f0; height: 8px; border-radius: 4px;">
+                                <div style="background: var(--primary); width: 60%; height: 100%; border-radius: 4px;"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                                <span>60% Complete</span>
+                                <button class="btn btn-primary btn-sm" onclick="viewCourseDetails(${course.id})">
+                                    Continue
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Render quizzes
+            document.getElementById('quizList').innerHTML = state.quizzes.map(quiz => `
+                <div style="background: white; padding: 1rem; border-radius: var(--radius); margin-bottom: 1rem; box-shadow: var(--shadow);">
+                    <h3>${quiz.title}</h3>
+                    <p>${quiz.questions.length} questions</p>
+                    <button class="btn btn-primary" onclick="startQuiz(${quiz.courseId})">
+                        <i class="fas fa-play"></i> Start Quiz
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function showDashboardSection(section) {
+            // Update active link
+            document.querySelectorAll('.dashboard-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-section') === section) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Show section
+            document.querySelectorAll('.dashboard-section').forEach(sectionEl => {
+                sectionEl.classList.remove('active');
+            });
+            
+            document.getElementById(`dashboard${section.charAt(0).toUpperCase() + section.slice(1)}`).classList.add('active');
+        }
+
+        // Quiz System
+        function startQuiz(courseId) {
+            const quiz = state.quizzes.find(q => q.courseId === courseId);
+            if (!quiz) {
+                alert('No quiz available for this course yet.');
+                return;
+            }
+
+            state.currentQuiz = quiz;
+            state.quizAnswers = {};
+
+            const quizHTML = `
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <h2>${quiz.title}</h2>
+                    <p>Answer all questions. Click submit when done.</p>
+                    
+                    <div id="quizQuestionsContainer">
+                        ${quiz.questions.map((q, qIndex) => `
+                            <div class="question">
+                                <h3>Question ${qIndex + 1}: ${q.text}</h3>
+                                <div class="options">
+                                    ${q.options.map((option, oIndex) => `
+                                        <div class="option" onclick="selectAnswer(${q.id}, ${oIndex})" id="option_${q.id}_${oIndex}">
+                                            ${String.fromCharCode(65 + oIndex)}. ${option}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="submitQuiz()" style="margin-top: 2rem;">
+                        <i class="fas fa-paper-plane"></i> Submit Quiz
+                    </button>
+                </div>
+            `;
+
+            if (state.currentPage === 'course-details') {
+                document.getElementById('courseDetailsContent').innerHTML += quizHTML;
+            } else {
+                const container = document.createElement('div');
+                container.innerHTML = quizHTML;
+                document.querySelector('main').appendChild(container);
+            }
+        }
+
+        function selectAnswer(questionId, optionIndex) {
+            state.quizAnswers[questionId] = optionIndex;
+            
+            // Update UI
+            document.querySelectorAll(`[id^="option_${questionId}_"]`).forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            document.getElementById(`option_${questionId}_${optionIndex}`).classList.add('selected');
+        }
+
+        function submitQuiz() {
+            if (!state.currentQuiz) return;
+
+            let score = 0;
+            state.currentQuiz.questions.forEach(q => {
+                if (state.quizAnswers[q.id] === q.correct) {
+                    score++;
+                }
+            });
+
+            const percentage = (score / state.currentQuiz.questions.length) * 100;
+            alert(`Quiz submitted! You scored ${score}/${state.currentQuiz.questions.length} (${percentage.toFixed(1)}%)`);
+            
+            if (percentage >= 70) {
+                alert('Congratulations! You passed the quiz!');
+            } else {
+                alert('Keep practicing! You can retake the quiz to improve your score.');
+            }
+        }
+
+        // Admin Functions
+        function renderAdminDashboard() {
+            // Render courses table
+            const coursesTableBody = document.getElementById('coursesTableBody');
+            coursesTableBody.innerHTML = state.courses.map(course => `
+                <tr>
+                    <td>${course.id}</td>
+                    <td>${course.title}</td>
+                    <td>${course.category}</td>
+                    <td>${course.students}</td>
+                    <td><span style="color: var(--success);">Active</span></td>
+                    <td>
+                        <button class="btn btn-outline btn-sm" onclick="editCourse(${course.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteCourse(${course.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+
+            // Render users table
+            const usersTableBody = document.getElementById('usersTableBody');
+            usersTableBody.innerHTML = state.users.map(user => `
+                <tr>
+                    <td>${user.id}</td>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.role}</td>
+                    <td>${user.joined}</td>
+                    <td><span style="color: var(--success);">Active</span></td>
+                </tr>
+            `).join('');
+        }
+
+        function addNewCourse() {
+            const title = prompt('Enter course title:');
+            if (!title) return;
+
+            const category = prompt('Enter category (frontend/backend/fullstack/android/cybersecurity):');
+            if (!category) return;
+
+            const newCourse = {
+                id: state.courses.length + 1,
+                title: title,
+                category: category,
+                description: "New course description",
+                duration: "6 weeks",
+                level: "Beginner",
+                students: 0,
+                rating: 0,
+                lessons: 12,
+                shortNotes: []
+            };
+
+            state.courses.push(newCourse);
+            renderAdminDashboard();
+            alert('Course added successfully!');
+        }
+
+        function editCourse(courseId) {
+            const course = state.courses.find(c => c.id === courseId);
+            if (!course) return;
+
+            const newTitle = prompt('Enter new title:', course.title);
+            if (newTitle) {
+                course.title = newTitle;
+                renderAdminDashboard();
+                alert('Course updated!');
+            }
+        }
+
+        function deleteCourse(courseId) {
+            if (confirm('Are you sure you want to delete this course?')) {
+                state.courses = state.courses.filter(c => c.id !== courseId);
+                renderAdminDashboard();
+                alert('Course deleted!');
+            }
+        }
+
+        // Resources
+        function renderResources() {
+            const container = document.getElementById('frontendResources');
+            if (!container) return;
+
+            container.innerHTML = state.resources.map(resource => `
+                <div style="background: white; padding: 1rem; border-radius: var(--radius); margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h4>${resource.title}</h4>
+                        <p>${resource.category} • ${resource.type.toUpperCase()} • ${resource.downloads} downloads</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="downloadResource(${resource.id})">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function downloadResource(resourceId) {
+            alert('Resource download started!');
+            // In real app, this would trigger file download
+        }
+
+        function downloadCourseMaterials(courseId) {
+            alert('Course materials downloaded!');
+        }
+
+        // Blog
+        function renderBlogPosts() {
+            const container = document.getElementById('blogPosts');
+            if (!container) return;
+
+            container.innerHTML = state.blogPosts.map(post => `
+                <div class="feature-card">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                        <span style="color: var(--primary); font-weight: 600;">${post.category}</span>
+                        <span style="color: var(--gray);">${post.date}</span>
+                    </div>
+                    <h3>${post.title}</h3>
+                    <p>${post.excerpt}</p>
+                    <button class="btn btn-outline" style="margin-top: 1rem;">
+                        Read More <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // AI Assistant
+        function setupAIAssistant() {
+            const aiToggle = document.getElementById('aiToggle');
+            const aiChatbox = document.getElementById('aiChatbox');
+            const sendButton = document.getElementById('sendAiMessage');
+            const aiInput = document.getElementById('aiInput');
+
+            aiToggle.addEventListener('click', () => {
+                aiChatbox.classList.toggle('active');
+            });
+
+            sendButton.addEventListener('click', sendAIMessage);
+            aiInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendAIMessage();
+                }
+            });
+
+            // Preload some AI responses
+            state.aiResponses = {
+                "hello": "Hello! I'm your AI learning assistant. How can I help you with your studies today?",
+                "help": "I can help you with: \n1. Course explanations \n2. Code debugging \n3. Study tips \n4. Quiz preparation \n5. Resource recommendations",
+                "javascript": "JavaScript is a versatile programming language used for web development. Key concepts: \n• Variables (let, const) \n• Functions (arrow functions) \n• Async/Await \n• DOM Manipulation \n• ES6+ Features",
+                "python": "Python is great for backend, data science, and AI. Key features: \n• Simple syntax \n• Extensive libraries \n• Django/Flask for web \n• Pandas for data \n• TensorFlow for ML",
+                "react": "React is a JavaScript library for building UIs: \n• Components (functional/class) \n• Props and State \n• Hooks (useState, useEffect) \n• Virtual DOM \n• JSX syntax",
+                "database": "Databases store application data: \n• SQL (MySQL, PostgreSQL) - relational \n• NoSQL (MongoDB) - document-based \n• ORMs for object mapping \n• ACID properties for transactions",
+                "cybersecurity": "Cybersecurity protects systems: \n• Encryption (AES, RSA) \n• Authentication (OAuth, JWT) \n• Firewalls and VPNs \n• Penetration testing \n• Security protocols"
+            };
+        }
+
+        function sendAIMessage() {
+            const input = document.getElementById('aiInput');
+            const message = input.value.trim().toLowerCase();
+            
+            if (!message) return;
+
+            // Add user message
+            addAIMessage(message, 'user');
+            input.value = '';
+
+            // Generate AI response
+            setTimeout(() => {
+                let response = "I understand you're asking about \"" + message + "\". ";
+                
+                // Check for keywords
+                if (message.includes('javascript')) {
+                    response = state.aiResponses['javascript'];
+                } else if (message.includes('python')) {
+                    response = state.aiResponses['python'];
+                } else if (message.includes('react')) {
+                    response = state.aiResponses['react'];
+                } else if (message.includes('database') || message.includes('sql')) {
+                    response = state.aiResponses['database'];
+                } else if (message.includes('security') || message.includes('cyber')) {
+                    response = state.aiResponses['cybersecurity'];
+                } else if (message.includes('hello') || message.includes('hi')) {
+                    response = state.aiResponses['hello'];
+                } else if (message.includes('help')) {
+                    response = state.aiResponses['help'];
+                } else {
+                    response += "For detailed explanations, please refer to our course materials or ask specific questions about programming concepts, frameworks, or tools.";
+                }
+
+                addAIMessage(response, 'ai');
+            }, 1000);
+        }
+
+        function addAIMessage(text, sender) {
+            const messagesContainer = document.getElementById('aiMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            messageDiv.textContent = text;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            // Store in history
+            state.aiChatHistory.push({ sender, text, timestamp: new Date() });
+        }
+
+        // Utility Functions
+        function enrollInCourse(courseId) {
+            if (!state.currentUser) {
+                alert('Please login to enroll in courses.');
+                navigateTo('login');
+                return;
+            }
+            alert('Successfully enrolled in the course!');
+        }
+
+        // Make functions available globally
+        window.navigateTo = navigateTo;
+        window.viewCourseDetails = viewCourseDetails;
+        window.enrollInCourse = enrollInCourse;
+        window.startQuiz = startQuiz;
+        window.selectAnswer = selectAnswer;
+        window.submitQuiz = submitQuiz;
+        window.downloadResource = downloadResource;
+        window.downloadCourseMaterials = downloadCourseMaterials;
+        window.editCourse = editCourse;
+        window.deleteCourse = deleteCourse;
+    // Extended Frontend Courses Data
+const frontendCourses = {
+  html: {
+    title: "HTML Mastery",
+    icon: "fas fa-code",
+    sections: [
+      {
+        id: "html-tutorial",
+        title: "HTML Tutorial",
+        description: "Learn HTML from scratch - structure web content semantically",
+        topics: [
+          "HTML Document Structure",
+          "Headings & Paragraphs",
+          "Links & Images",
+          "Lists & Tables",
+          "Semantic HTML5 Tags"
+        ],
+        exampleCode: `<!DOCTYPE html>
+<html>
+<head>
+    <title>My First Page</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome to My Site</h1>
+    </header>
+    <main>
+        <p>This is a paragraph with a <a href="#">link</a>.</p>
+        <img src="image.jpg" alt="Sample image">
+    </main>
+</body>
+</html>`
+      },
+      {
+        id: "html-forms",
+        title: "HTML Forms",
+        description: "Create interactive forms for user input and data submission",
+        topics: [
+          "Form Structure & Attributes",
+          "Input Types (text, email, password)",
+          "Radio Buttons & Checkboxes",
+          "Dropdowns & Textareas",
+          "Form Validation"
+        ],
+        exampleCode: `<form action="/submit" method="POST">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    
+    <label for="message">Message:</label>
+    <textarea id="message" name="message"></textarea>
+    
+    <button type="submit">Submit</button>
+</form>`
+      },
+      {
+        id: "html-examples",
+        title: "HTML Examples",
+        description: "Practical HTML examples for real-world scenarios",
+        topics: [
+          "Navigation Menu",
+          "Contact Form",
+          "Image Gallery",
+          "Pricing Table",
+          "Blog Layout"
+        ],
+        exampleCode: `<nav>
+    <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<section class="gallery">
+    <figure>
+        <img src="photo1.jpg" alt="Landscape">
+        <figcaption>Beautiful Landscape</figcaption>
+    </figure>
+</section>`
+      },
+      {
+        id: "html-reference",
+        title: "HTML Reference",
+        description: "Complete HTML element and attribute reference guide",
+        topics: [
+          "All HTML Tags",
+          "Global Attributes",
+          "Event Attributes",
+          "Meta Tags",
+          "SEO Elements"
+        ],
+        exampleCode: `<!-- Semantic HTML5 Example -->
+<article>
+    <header>
+        <h2>Article Title</h2>
+        <time datetime="2024-04-15">April 15, 2024</time>
+    </header>
+    <section>
+        <p>Article content here...</p>
+    </section>
+    <footer>
+        <p>Posted by: Author Name</p>
+    </footer>
+</article>`
+      }
+    ],
+    resources: [
+      { name: "HTML Cheat Sheet.pdf", type: "pdf", size: "2.1 MB" },
+      { name: "HTML5 Semantic Guide.pdf", type: "pdf", size: "1.8 MB" },
+      { name: "Form Validation Examples.zip", type: "zip", size: "3.5 MB" }
+    ]
+  },
+  
+  css: {
+    title: "CSS Styling",
+    icon: "fab fa-css3-alt",
+    sections: [
+      {
+        id: "css-tutorial",
+        title: "CSS Tutorial",
+        description: "Learn CSS fundamentals - styling web pages beautifully",
+        topics: [
+          "Selectors & Specificity",
+          "Box Model (margin, padding, border)",
+          "Colors & Backgrounds",
+          "Typography & Fonts",
+          "Display & Positioning"
+        ],
+        exampleCode: `/* Basic CSS Example */
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+.button {
+    background-color: #2563eb;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #1d4ed8;
+}`
+      },
+      {
+        id: "css-advanced",
+        title: "Advanced CSS",
+        description: "Master modern CSS features and responsive design",
+        topics: [
+          "Flexbox Layout",
+          "CSS Grid System",
+          "Animations & Transitions",
+          "CSS Variables",
+          "Responsive Design (Media Queries)"
+        ],
+        exampleCode: `/* CSS Grid Layout */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+/* CSS Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animated-card {
+    animation: fadeIn 0.5s ease-out;
+}`
+      },
+      {
+        id: "css-resources",
+        title: "CSS Resources",
+        description: "Ready-to-use CSS components and utility classes",
+        topics: [
+          "Button Styles",
+          "Card Components",
+          "Navigation Bars",
+          "Form Styles",
+          "Modal Windows"
+        ],
+        exampleCode: `/* Card Component */
+.card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    padding: 20px;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    color: white;
+}
+
+.card-body {
+    padding: 20px;
+}`
+      },
+      {
+        id: "css-reference",
+        title: "CSS Reference",
+        description: "Complete CSS property and value reference",
+        topics: [
+          "All CSS Properties",
+          "Pseudo-classes & Elements",
+          "CSS Functions",
+          "Browser Prefixes",
+          "Performance Tips"
+        ],
+        exampleCode: `/* CSS Custom Properties */
+:root {
+    --primary-color: #2563eb;
+    --secondary-color: #7c3aed;
+    --spacing-unit: 8px;
+    --border-radius: 8px;
+}
+
+.component {
+    background-color: var(--primary-color);
+    padding: calc(var(--spacing-unit) * 3);
+    border-radius: var(--border-radius);
+}`
+      }
+    ],
+    resources: [
+      { name: "CSS Flexbox Guide.pdf", type: "pdf", size: "1.5 MB" },
+      { name: "CSS Grid Layouts.zip", type: "zip", size: "2.8 MB" },
+      { name: "UI Component Library.css", type: "css", size: "4.2 MB" }
+    ]
+  },
+  
+  javascript: {
+    title: "JavaScript Programming",
+    icon: "fab fa-js",
+    sections: [
+      {
+        id: "js-tutorial",
+        title: "JavaScript Tutorial",
+        description: "Learn JavaScript fundamentals - the language of the web",
+        topics: [
+          "Variables & Data Types",
+          "Operators & Expressions",
+          "Control Flow (if/else, loops)",
+          "Functions & Scope",
+          "DOM Manipulation Basics"
+        ],
+        exampleCode: `// Basic JavaScript Example
+const userName = "John";
+let userAge = 25;
+const isStudent = true;
+
+function greetUser(name) {
+    return \`Hello, \${name}!\`;
+}
+
+console.log(greetUser(userName)); // "Hello, John!"
+
+// DOM Manipulation
+document.getElementById('myButton').addEventListener('click', () => {
+    document.getElementById('message').textContent = 'Button clicked!';
+});`
+      },
+      {
+        id: "js-objects",
+        title: "Objects & Arrays",
+        description: "Master JavaScript objects, arrays, and modern ES6+ features",
+        topics: [
+          "Object Creation & Methods",
+          "Array Methods (map, filter, reduce)",
+          "Destructuring Assignment",
+          "Spread & Rest Operators",
+          "JSON Manipulation"
+        ],
+        exampleCode: `// Objects and Arrays
+const user = {
+    name: "Alice",
+    age: 30,
+    skills: ["JavaScript", "React", "Node.js"],
+    address: {
+        city: "New York",
+        country: "USA"
+    }
+};
+
+// Array Methods
+const numbers = [1, 2, 3, 4, 5];
+const doubled = numbers.map(num => num * 2);
+const evenNumbers = numbers.filter(num => num % 2 === 0);
+const sum = numbers.reduce((total, num) => total + num, 0);
+
+console.log(doubled); // [2, 4, 6, 8, 10]
+console.log(sum); // 15`
+      },
+      {
+        id: "js-functions",
+        title: "Functions & Scope",
+        description: "Deep dive into functions, closures, and execution context",
+        topics: [
+          "Function Declarations vs Expressions",
+          "Arrow Functions",
+          "Closures & Lexical Scope",
+          "Higher-Order Functions",
+          "Callback Patterns"
+        ],
+        exampleCode: `// Different Function Types
+function traditionalFunction(x, y) {
+    return x + y;
+}
+
+const arrowFunction = (x, y) => x + y;
+
+// Higher-Order Function
+function createMultiplier(factor) {
+    return function(number) {
+        return number * factor;
+    };
+}
+
+const double = createMultiplier(2);
+const triple = createMultiplier(3);
+
+console.log(double(5)); // 10
+console.log(triple(5)); // 15
+
+// Closure Example
+function counter() {
+    let count = 0;
+    return function() {
+        count++;
+        return count;
+    };
+}
+
+const myCounter = counter();
+console.log(myCounter()); // 1
+console.log(myCounter()); // 2`
+      },
+      {
+        id: "js-classes",
+        title: "Classes & OOP",
+        description: "Object-oriented programming in JavaScript with ES6 classes",
+        topics: [
+          "Class Syntax & Constructors",
+          "Methods & Properties",
+          "Inheritance (extends)",
+          "Static Methods",
+          "Getters & Setters"
+        ],
+        exampleCode: `// ES6 Classes
+class Person {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    greet() {
+        return \`Hello, my name is \${this.name}\`;
+    }
+    
+    static compareAges(person1, person2) {
+        return person1.age - person2.age;
+    }
+}
+
+class Student extends Person {
+    constructor(name, age, course) {
+        super(name, age);
+        this.course = course;
+    }
+    
+    study() {
+        return \`\${this.name} is studying \${this.course}\`;
+    }
+}
+
+const alice = new Student("Alice", 22, "Computer Science");
+console.log(alice.greet()); // "Hello, my name is Alice"
+console.log(alice.study()); // "Alice is studying Computer Science"`
+      },
+      {
+        id: "js-examples",
+        title: "Interactive Examples",
+        description: "Practical JavaScript examples with live demonstrations",
+        topics: [
+          "Form Validation",
+          "Image Slider",
+          "Todo List App",
+          "Weather Widget",
+          "API Fetch Examples"
+        ],
+        exampleCode: `// Todo List Example
+class TodoList {
+    constructor() {
+        this.todos = [];
+        this.nextId = 1;
+    }
+    
+    addTodo(text) {
+        const todo = {
+            id: this.nextId++,
+            text: text,
+            completed: false,
+            createdAt: new Date()
+        };
+        this.todos.push(todo);
+        return todo;
+    }
+    
+    toggleTodo(id) {
+        const todo = this.todos.find(t => t.id === id);
+        if (todo) {
+            todo.completed = !todo.completed;
+        }
+    }
+    
+    getStats() {
+        const total = this.todos.length;
+        const completed = this.todos.filter(t => t.completed).length;
+        return { total, completed };
+    }
+}
+
+// Usage
+const myTodos = new TodoList();
+myTodos.addTodo("Learn JavaScript");
+myTodos.addTodo("Build a project");
+myTodos.toggleTodo(1);
+
+console.log(myTodos.getStats()); // { total: 2, completed: 1 }`
+      },
+      {
+        id: "js-reference",
+        title: "JavaScript Reference",
+        description: "Complete JavaScript API and syntax reference",
+        topics: [
+          "String Methods",
+          "Array Methods",
+          "Date Methods",
+          "Math Object",
+          "Error Handling"
+        ],
+        exampleCode: `// Common JavaScript Methods
+const text = "Hello, World!";
+console.log(text.toUpperCase()); // "HELLO, WORLD!"
+console.log(text.split(", ")); // ["Hello", "World!"]
+console.log(text.includes("World")); // true
+
+// Date Manipulation
+const now = new Date();
+console.log(now.toLocaleDateString()); // "4/15/2024"
+console.log(now.getFullYear()); // 2024
+
+// Error Handling
+try {
+    const data = JSON.parse(invalidJson);
+} catch (error) {
+    console.error("Parse error:", error.message);
+} finally {
+    console.log("Cleanup complete");
+}`
+      }
+    ],
+    resources: [
+      { name: "JavaScript ES6+ Cheat Sheet.pdf", type: "pdf", size: "3.2 MB" },
+      { name: "DOM Manipulation Guide.pdf", type: "pdf", size: "2.4 MB" },
+      { name: "Async JavaScript Examples.zip", type: "zip", size: "5.1 MB" }
+    ]
+  }
+};
+
+// Backend Courses Data
+const backendCourses = {
+  python: {
+    title: "Python Backend",
+    icon: "fab fa-python",
+    sections: [
+      {
+        id: "python-tutorial",
+        title: "Python Tutorial",
+        description: "Learn Python basics for backend development",
+        topics: [
+          "Python Syntax & Variables",
+          "Data Types & Structures",
+          "Control Flow",
+          "Functions & Modules",
+          "File Handling"
+        ],
+        exampleCode: `# Basic Python Example
+def greet_user(name):
+    return f"Hello, {name}!"
+
+# Lists and Dictionaries
+users = [
+    {"name": "Alice", "age": 25},
+    {"name": "Bob", "age": 30}
+]
+
+# List comprehension
+user_names = [user["name"] for user in users]
+print(user_names)  # ['Alice', 'Bob']
+
+# File operations
+with open('data.txt', 'w') as file:
+    file.write("Hello, World!")`
+      },
+      {
+        id: "python-advanced",
+        title: "Advanced Python",
+        description: "Advanced Python concepts for production backend",
+        topics: [
+          "Decorators & Generators",
+          "Context Managers",
+          "Async/Await",
+          "Type Hints",
+          "Metaclasses"
+        ],
+        exampleCode: `# Decorator Example
+def log_execution(func):
+    def wrapper(*args, **kwargs):
+        print(f"Executing {func.__name__}")
+        result = func(*args, **kwargs)
+        print(f"Finished {func.__name__}")
+        return result
+    return wrapper
+
+@log_execution
+def process_data(data):
+    return data * 2
+
+# Async/Await
+import asyncio
+
+async def fetch_data(url):
+    # Simulate API call
+    await asyncio.sleep(1)
+    return {"data": "sample"}
+
+async def main():
+    data = await fetch_data("https://api.example.com")
+    print(data)`
+      },
+      {
+        id: "python-functions",
+        title: "Python Functions",
+        description: "Master Python functions for backend logic",
+        topics: [
+          "Function Arguments",
+          "Lambda Functions",
+          "Higher-Order Functions",
+          "Recursion",
+          "Error Handling"
+        ],
+        exampleCode: `# Function with type hints
+def calculate_total(items: list[float], discount: float = 0.0) -> float:
+    """
+    Calculate total price with optional discount
+    """
+    subtotal = sum(items)
+    if discount > 0:
+        subtotal -= subtotal * discount
+    return subtotal
+
+# Lambda functions
+square = lambda x: x ** 2
+numbers = [1, 2, 3, 4]
+squared = list(map(square, numbers))
+
+# Error handling
+try:
+    result = 10 / 0
+except ZeroDivisionError as e:
+    print(f"Error: {e}")
+finally:
+    print("Cleanup completed")`
+      },
+      {
+        id: "python-examples",
+        title: "Backend Examples",
+        description: "Practical Python backend examples",
+        topics: [
+          "REST API with Flask",
+          "Database Connection",
+          "Authentication System",
+          "File Upload Handler",
+          "Background Tasks"
+        ],
+        exampleCode: `# Flask API Example
+from flask import Flask, jsonify, request
+
+app = Flask(__name__)
+
+users_db = []
+
+@app.route('/api/users', methods=['GET'])
+def get_users():
+    return jsonify(users_db)
+
+@app.route('/api/users', methods=['POST'])
+def create_user():
+    data = request.get_json()
+    user = {
+        'id': len(users_db) + 1,
+        'name': data['name'],
+        'email': data['email']
+    }
+    users_db.append(user)
+    return jsonify(user), 201
+
+if __name__ == '__main__':
+    app.run(debug=True)`
+      },
+      {
+        id: "python-reference",
+        title: "Python Reference",
+        description: "Python standard library reference",
+        topics: [
+          "Built-in Functions",
+          "Standard Libraries",
+          "Common Patterns",
+          "Performance Tips",
+          "Best Practices"
+        ],
+        exampleCode: `# Common Python patterns
+from collections import defaultdict, Counter
+from datetime import datetime, timedelta
+
+# Counter example
+text = "hello world hello python"
+word_count = Counter(text.split())
+print(word_count.most_common(2))  # [('hello', 2), ('world', 1)]
+
+# Date operations
+now = datetime.now()
+tomorrow = now + timedelta(days=1)
+print(f"Tomorrow: {tomorrow.strftime('%Y-%m-%d')}")`
+      }
+    ],
+    resources: [
+      { name: "Python Backend Guide.pdf", type: "pdf", size: "4.5 MB" },
+      { name: "Flask REST API Examples.zip", type: "zip", size: "6.2 MB" },
+      { name: "Python Best Practices.md", type: "md", size: "1.8 MB" }
+    ]
+  },
+  
+  java: {
+    title: "Java Backend",
+    icon: "fab fa-java",
+    sections: [
+      {
+        id: "java-tutorial",
+        title: "Java Tutorial",
+        description: "Learn Java fundamentals for enterprise backend",
+        topics: [
+          "Java Syntax & Variables",
+          "Data Types & Operators",
+          "Control Statements",
+          "Arrays & Strings",
+          "Basic I/O"
+        ],
+        exampleCode: `// Basic Java Example
+public class Main {
+    public static void main(String[] args) {
+        String name = "John";
+        int age = 30;
+        boolean isStudent = true;
+        
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+        
+        // Array example
+        int[] numbers = {1, 2, 3, 4, 5};
+        for (int num : numbers) {
+            System.out.print(num + " ");
+        }
+    }
+}`
+      },
+      {
+        id: "java-objects",
+        title: "Objects & Classes",
+        description: "Object-oriented programming in Java",
+        topics: [
+          "Classes & Objects",
+          "Constructors",
+          "Methods",
+          "Inheritance",
+          "Polymorphism"
+        ],
+        exampleCode: `// Java Class Example
+public class Person {
+    private String name;
+    private int age;
+    
+    // Constructor
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    // Getter and Setter
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    // Method
+    public void introduce() {
+        System.out.println("Hello, I'm " + name);
+    }
+}
+
+// Inheritance
+public class Student extends Person {
+    private String course;
+    
+    public Student(String name, int age, String course) {
+        super(name, age);
+        this.course = course;
+    }
+    
+    @Override
+    public void introduce() {
+        super.introduce();
+        System.out.println("I'm studying " + course);
+    }
+}`
+      },
+      {
+        id: "java-classes",
+        title: "Advanced Classes",
+        description: "Advanced Java class concepts",
+        topics: [
+          "Abstract Classes",
+          "Interfaces",
+          "Packages",
+          "Access Modifiers",
+          "Static & Final"
+        ],
+        exampleCode: `// Interface Example
+interface Drawable {
+    void draw();
+    double getArea();
+}
+
+// Abstract Class
+abstract class Shape implements Drawable {
+    protected String color;
+    
+    public Shape(String color) {
+        this.color = color;
+    }
+    
+    public String getColor() {
+        return color;
+    }
+}
+
+// Concrete Class
+class Circle extends Shape {
+    private double radius;
+    
+    public Circle(String color, double radius) {
+        super(color);
+        this.radius = radius;
+    }
+    
+    @Override
+    public void draw() {
+        System.out.println("Drawing a " + color + " circle");
+    }
+    
+    @Override
+    public double getArea() {
+        return Math.PI * radius * radius;
+    }
+}`
+      },
+      {
+        id: "java-examples",
+        title: "Java Examples",
+        description: "Practical Java backend examples",
+        topics: [
+          "Spring Boot REST API",
+          "Database Connection with JDBC",
+          "File Processing",
+          "Multithreading",
+          "Exception Handling"
+        ],
+        exampleCode: `// Spring Boot Controller Example
+@RestController
+@RequestMapping("/api/users")
+public class UserController {
+    
+    @Autowired
+    private UserService userService;
+    
+    @GetMapping
+    public ResponseEntity<List<User>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
+    
+    @PostMapping
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        User createdUser = userService.createUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+    }
+    
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<String> handleNotFound(ResourceNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+}`
+      },
+      {
+        id: "java-reference",
+        title: "Java Reference",
+        description: "Java API and libraries reference",
+        topics: [
+          "Java Collections Framework",
+          "Stream API",
+          "Date/Time API",
+          "I/O Classes",
+          "Concurrency Utilities"
+        ],
+        exampleCode: `// Java Stream API Example
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class StreamExample {
+    public static void main(String[] args) {
+        List<String> names = List.of("Alice", "Bob", "Charlie", "David");
+        
+        // Filter and map
+        List<String> filtered = names.stream()
+            .filter(name -> name.length() > 4)
+            .map(String::toUpperCase)
+            .collect(Collectors.toList());
+        
+        System.out.println(filtered); // [ALICE, CHARLIE, DAVID]
+        
+        // Reduce example
+        List<Integer> numbers = List.of(1, 2, 3, 4, 5);
+        int sum = numbers.stream()
+            .reduce(0, Integer::sum);
+        
+        System.out.println("Sum: " + sum); // Sum: 15
+    }
+}`
+      }
+    ],
+    resources: [
+      { name: "Java OOP Guide.pdf", type: "pdf", size: "5.2 MB" },
+      { name: "Spring Boot Examples.zip", type: "zip", size: "8.7 MB" },
+      { name: "Java Collections Cheat Sheet.pdf", type: "pdf", size: "2.9 MB" }
+    ]
+  },
+  
+  cpp: {
+    title: "C++ Backend",
+    icon: "fas fa-cogs",
+    sections: [
+      {
+        id: "cpp-tutorial",
+        title: "C++ Tutorial",
+        description: "Learn C++ fundamentals for system programming",
+        topics: [
+          "C++ Syntax Basics",
+          "Variables & Data Types",
+          "Operators",
+          "Control Structures",
+          "Functions"
+        ],
+        exampleCode: `// Basic C++ Example
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    string name = "John";
+    int age = 25;
+    double salary = 50000.50;
+    
+    cout << "Name: " << name << endl;
+    cout << "Age: " << age << endl;
+    cout << "Salary: $" << salary << endl;
+    
+    // Array example
+    int numbers[5] = {1, 2, 3, 4, 5};
+    for(int i = 0; i < 5; i++) {
+        cout << numbers[i] << " ";
+    }
+    
+    return 0;
+}`
+      },
+      {
+        id: "cpp-oop",
+        title: "C++ OOP",
+        description: "Object-oriented programming in C++",
+        topics: [
+          "Classes & Objects",
+          "Constructors & Destructors",
+          "Inheritance",
+          "Polymorphism",
+          "Encapsulation"
+        ],
+        exampleCode: `// C++ Class Example
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Person {
+private:
+    string name;
+    int age;
+    
+public:
+    // Constructor
+    Person(string n, int a) : name(n), age(a) {}
+    
+    // Getter methods
+    string getName() const { return name; }
+    int getAge() const { return age; }
+    
+    // Setter methods
+    void setName(string n) { name = n; }
+    void setAge(int a) { age = a; }
+    
+    // Method
+    void display() const {
+        cout << "Name: " << name << ", Age: " << age << endl;
+    }
+};
+
+// Inheritance
+class Student : public Person {
+private:
+    string studentId;
+    
+public:
+    Student(string n, int a, string id) 
+        : Person(n, a), studentId(id) {}
+    
+    void displayStudent() const {
+        display();
+        cout << "Student ID: " << studentId << endl;
+    }
+};`
+      },
+      {
+        id: "cpp-functions",
+        title: "C++ Functions",
+        description: "Advanced C++ function concepts",
+        topics: [
+          "Function Overloading",
+          "Default Arguments",
+          "Inline Functions",
+          "Function Templates",
+          "Lambda Expressions"
+        ],
+        exampleCode: `// Function Examples in C++
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+// Function Overloading
+int add(int a, int b) {
+    return a + b;
+}
+
+double add(double a, double b) {
+    return a + b;
+}
+
+// Function Template
+template<typename T>
+T findMax(T a, T b) {
+    return (a > b) ? a : b;
+}
+
+// Lambda Expression Example
+void lambdaExample() {
+    vector<int> numbers = {1, 2, 3, 4, 5};
+    
+    // Using lambda with for_each
+    for_each(numbers.begin(), numbers.end(), 
+        [](int n) { cout << n * 2 << " "; });
+    
+    cout << endl;
+    
+    // Lambda with capture
+    int multiplier = 3;
+    auto times = [multiplier](int x) { return x * multiplier; };
+    
+    for(int num : numbers) {
+        cout << times(num) << " ";
+    }
+}
+
+int main() {
+    cout << add(5, 3) << endl;          // 8
+    cout << add(5.5, 3.3) << endl;      // 8.8
+    cout << findMax(10, 20) << endl;    // 20
+    
+    lambdaExample();
+    return 0;
+}`
+      },
+      {
+        id: "cpp-examples",
+        title: "C++ Examples",
+        description: "Practical C++ backend examples",
+        topics: [
+          "File I/O Operations",
+          "Memory Management",
+          "Data Structures",
+          "Algorithm Implementation",
+          "Socket Programming"
+        ],
+        exampleCode: `// File I/O Example
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+
+class FileHandler {
+private:
+    string filename;
+    
+public:
+    FileHandler(string fname) : filename(fname) {}
+    
+    vector<string> readLines() {
+        vector<string> lines;
+        ifstream file(filename);
+        string line;
+        
+        if(file.is_open()) {
+            while(getline(file, line)) {
+                lines.push_back(line);
+            }
+            file.close();
+        }
+        return lines;
+    }
+    
+    void writeLines(const vector<string>& lines) {
+        ofstream file(filename);
+        if(file.is_open()) {
+            for(const string& line : lines) {
+                file << line << endl;
+            }
+            file.close();
+        }
+    }
+    
+    void appendLine(const string& line) {
+        ofstream file(filename, ios::app);
+        if(file.is_open()) {
+            file << line << endl;
+            file.close();
+        }
+    }
+};
+
+// Memory Management Example
+class DynamicArray {
+private:
+    int* data;
+    int size;
+    int capacity;
+    
+public:
+    DynamicArray() : data(nullptr), size(0), capacity(10) {
+        data = new int[capacity];
+    }
+    
+    ~DynamicArray() {
+        delete[] data;
+    }
+    
+    void push_back(int value) {
+        if(size >= capacity) {
+            resize();
+        }
+        data[size++] = value;
+    }
+    
+private:
+    void resize() {
+        capacity *= 2;
+        int* newData = new int[capacity];
+        for(int i = 0; i < size; i++) {
+            newData[i] = data[i];
+        }
+        delete[] data;
+        data = newData;
+    }
+};`
+      },
+      {
+        id: "cpp-reference",
+        title: "C++ Reference",
+        description: "C++ standard library reference",
+        topics: [
+          "STL Containers",
+          "STL Algorithms",
+          "Smart Pointers",
+          "Thread Support",
+          "C++ Best Practices"
+        ],
+        exampleCode: `// STL Examples
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <memory>
+#include <thread>
+using namespace std;
+
+void stlExamples() {
+    // Vector example
+    vector<int> numbers = {5, 2, 8, 1, 9, 3};
+    
+    // Sorting
+    sort(numbers.begin(), numbers.end());
+    
+    // Finding element
+    auto it = find(numbers.begin(), numbers.end(), 8);
+    if(it != numbers.end()) {
+        cout << "Found 8 at position: " << distance(numbers.begin(), it) << endl;
+    }
+    
+    // Smart Pointer Example
+    unique_ptr<int> ptr(new int(42));
+    cout << "Smart pointer value: " << *ptr << endl;
+    
+    // Thread Example
+    auto printMessage = [](string msg) {
+        cout << "Thread says: " << msg << endl;
+    };
+    
+    thread t1(printMessage, "Hello from thread!");
+    t1.join();
+}
+
+// Template example
+template<typename Container, typename T>
+bool contains(const Container& c, const T& value) {
+    return find(c.begin(), c.end(), value) != c.end();
+}
+
+int main() {
+    stlExamples();
+    return 0;
+}`
+      }
+    ],
+    resources: [
+      { name: "C++ STL Guide.pdf", type: "pdf", size: "3.8 MB" },
+      { name: "Memory Management Examples.zip", type: "zip", size: "4.5 MB" },
+      { name: "C++ Best Practices.pdf", type: "pdf", size: "2.7 MB" }
+    ]
+  }
+};
+
+    </script>
+</body>
+  </html>
